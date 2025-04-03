@@ -277,7 +277,7 @@ SELECT concat(first_name, last_name) FROM students;
 
 SELECT concat(first_name, ' ', last_name) FROM students;
 
-SELECT * FROM students ;
+SELECT * FROM students;
 
 SELECT length(first_name) FROM students;
 
@@ -286,10 +286,10 @@ SELECT avg(age) FROM students;
 SELECT sum(age) FROM students;
 
 SELECT count(age) FROM students;
+
 SELECT count(*) FROM students;
 
 SELECT max(length(first_name)) FROM students;
-
 
 /*
 
@@ -309,19 +309,51 @@ COUNT() Counts the number of rows in a set .
 
 */
 
+SELECT * FROM students WHERE NOT country = 'USA';
 
+SELECT * FROM students WHERE email = NULL;
+
+SELECT * FROM students WHERE email IS NULL;
+
+SELECT * FROM students WHERE email IS NOT NULL;
+
+SELECT
+    COALESCE(email, 'Email Not Provided') as "Email",
+    blood_group,
+    first_name
+FROM students;
+
+-- SELECT * FROM students WHERE country='USA' OR  country='UK' OR country='Canada' ;
+
+SELECT * FROM students WHERE country IN('USA','UK' ,'Canada') ;
+
+SELECT * FROM students WHERE country NOT IN('USA','UK' ,'Canada') ;
 
 SELECT * FROM students
-    WHERE NOT country = 'USA';
+    WHERE age BETWEEN 19 AND 22 ;
+
+SELECT * FROM students
+    WHERE dob BETWEEN '2000-01-01' AND '2005-01-01' ORDER BY dob ASC ;
+
+SELECT * FROM students 
+    WHERE first_name LIKE '%am';
     
-SELECT * FROM students
-    WHERE email = NULL;
+SELECT * FROM students 
+    WHERE first_name LIKE '%a';
 
-SELECT * FROM students
-    WHERE email IS NULL;
+SELECT * FROM students 
+    WHERE first_name LIKE 'A%';
 
-SELECT * FROM students
-    WHERE email IS NOT NULL;
+SELECT * FROM students 
+    WHERE first_name LIKE '__a%';
 
-SELECT COALESCE(email, 'Email Not Provided') as "Email", blood_group, first_name FROM students;
+SELECT * FROM students 
+    WHERE first_name LIKE '___a';
+
+SELECT * FROM students 
+    WHERE first_name LIKE '__a%';
+
+SELECT * FROM students 
+    WHERE first_name ILIKE '__A%';
+
 
