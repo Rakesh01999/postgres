@@ -370,9 +370,6 @@ SELECT * FROM students LIMIT 5 OFFSET 5*2;
 
 
 
-
-SELECT * FROM students;
-
 DELETE FROM students;
 
 DELETE FROM students
@@ -380,5 +377,13 @@ DELETE FROM students
 
 DELETE FROM students
     WHERE grade = 'C' AND country='USA';
+
+
+SELECT * FROM students;
+
+
+UPDATE students
+    set email = 'ethan@mail.com', age=30, course='ME'
+    WHERE student_id = 41;
 
 
