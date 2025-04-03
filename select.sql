@@ -308,3 +308,20 @@ SUM() Calculates the sum of values in a set .
 COUNT() Counts the number of rows in a set .
 
 */
+
+
+
+SELECT * FROM students
+    WHERE NOT country = 'USA';
+    
+SELECT * FROM students
+    WHERE email = NULL;
+
+SELECT * FROM students
+    WHERE email IS NULL;
+
+SELECT * FROM students
+    WHERE email IS NOT NULL;
+
+SELECT COALESCE(email, 'Email Not Provided') as "Email", blood_group, first_name FROM students;
+
