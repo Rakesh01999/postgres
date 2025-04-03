@@ -48,3 +48,63 @@ SELECT * FROM students ORDER BY age ASC;
 
 SELECT * FROM students ORDER BY dob ASC;
 
+SELECT country FROM students;
+
+SELECT DISTINCT country FROM students ;
+
+SELECT DISTINCT country FROM students ORDER BY country ASC;
+
+SELECT DISTINCT blood_group FROM students ;
+
+
+
+
+
+
+
+
+-- data filtering
+
+-- select students from the USA
+-- select students with 'A' grade in Physics
+-- select students with a specific blood group('A')
+-- select students from the USA or from Australia
+-- select students from the USA or from Australia and age is 20
+-- select students with a grade of 'A' or 'B' grade in Math or Physics
+-- select students older than 20
+
+
+SELECT * FROM students
+    WHERE country = 'USA';
+
+SELECT * FROM students
+    WHERE grade = 'A';
+
+SELECT * FROM students
+    -- WHERE grade = 'A' AND course='Physics';
+    WHERE grade = 'A' AND course='Sociology';
+
+SELECT * FROM students 
+    WHERE country='USA' OR country='Australia';
+
+SELECT * FROM students 
+    WHERE country='USA' OR country='Australia';
+
+SELECT * FROM students 
+    WHERE (country='USA' OR country='Australia') AND age=20;
+
+SELECT * FROM students
+    WHERE age < 20;
+    
+SELECT * FROM students
+    WHERE age > 20 AND course='History';
+
+SELECT * FROM students
+    WHERE age != 20 ;
+
+SELECT * FROM students
+    WHERE age <> 20 ;
+
+SELECT * FROM students
+    WHERE country <> 'USA' ;
+
