@@ -421,3 +421,110 @@ Here are some practical examples combining date operations:
    SELECT * FROM students 
    WHERE extract(month from dob) = extract(month from CURRENT_DATE + INTERVAL '1 month');
    ```
+
+--------------------
+====================
+# groupBy.sql:
+# SQL Student Analysis
+
+A collection of SQL queries for analyzing student demographic data with PostgreSQL, focusing on aggregation, grouping, and filtering techniques.
+
+## 📋 Table of Contents
+
+- [Overview](#overview)
+- [Database Connection](#database-connection)
+- [Queries Explained](#queries-explained)
+  - [Basic Data Retrieval](#basic-data-retrieval)
+  - [Country-based Analysis](#country-based-analysis)
+  - [Filtered Aggregations with HAVING](#filtered-aggregations-with-having)
+  - [Date-based Analysis](#date-based-analysis)
+- [Usage](#usage)
+- [Schema Information](#schema-information)
+
+## 📚 Overview
+
+This project contains SQL queries that demonstrate how to analyze student data using PostgreSQL's powerful aggregation and filtering capabilities. The queries progressively build in complexity, showing how to extract meaningful insights from demographic and geographical data.
+
+## 🔌 Database Connection
+
+The queries connect to a PostgreSQL database with the following connection string:
+```
+Active: 1743601378217@@127.0.0.1@5432@test_db@public
+```
+
+This indicates a connection to:
+- Host: 127.0.0.1 (localhost)
+- Port: 5432 (default PostgreSQL port)
+- Database: test_db
+- Schema: public
+
+## 🧮 Queries Explained
+
+### Basic Data Retrieval
+
+```sql
+-- Retrieve all student records
+SELECT * FROM students;
+
+-- Extract list of countries represented in the dataset
+SELECT country FROM students;
+```
+
+### Country-based Analysis
+
+```sql
+-- Count students by country
+SELECT country, count(*) FROM students
+    GROUP BY country;
+
+-- Calculate average age by country
+SELECT country, count(*), avg(age) FROM students
+    GROUP BY country;
+```
+
+### Filtered Aggregations with HAVING
+
+```sql
+-- Filter groups using HAVING to show only countries with average age above 20
+SELECT country, count(*), avg(age) FROM students
+    GROUP BY country
+        HAVING avg(age) > 20;
+
+-- Filter groups using HAVING with more precise threshold (20.97)
+SELECT country, count(*), avg(age) FROM students
+    GROUP BY country
+        HAVING avg(age) > 20.97;
+```
+
+### Date-based Analysis
+
+```sql
+-- Count students born in each year
+SELECT extract(year FROM dob) as birth_year
+    FROM students
+    GROUP BY birth_year;
+
+-- Get count of students by birth year
+SELECT extract(year FROM dob) as birth_year, count(*)
+    FROM students
+    GROUP BY birth_year;
+```
+
+## 🚀 Usage
+
+To execute these queries:
+
+1. Connect to your PostgreSQL database using a client like pgAdmin, DBeaver, or the command line
+2. Copy and paste the desired query
+3. Execute the query to view the results
+
+## 🗄️ Schema Information
+
+These queries work with a `students` table that appears to have at least the following columns:
+- Various student attributes (implicitly retrieved with `SELECT *`)
+- `country` (VARCHAR) - Student's country of origin
+- `age` (INT) - Student's age
+- `dob` (DATE) - Student's date of birth
+
+This project builds upon concepts from the "SQL Students Database Tutorial" which provides a more comprehensive explanation of the database schema and operations.
+
