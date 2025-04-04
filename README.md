@@ -1,5 +1,6 @@
 ## Postgres
 
+### select.sql :
 # SQL Students Database Tutorial
 
 A comprehensive tutorial and reference repository for learning SQL using a student database example. This repository contains SQL scripts that demonstrate essential database operations from basic queries to advanced data manipulation techniques.
@@ -231,3 +232,192 @@ Here are some practical examples of queries you can run:
    ORDER BY number_of_students DESC;
    ```
 
+---------------------------
+===========================
+
+# date.sql :
+# SQL Date and Time Operations
+
+A comprehensive guide to working with dates, times, and timestamps in SQL with practical examples. This repository extends the SQL Students Database Tutorial with focused content on date and time manipulation in PostgreSQL.
+
+## 📋 Table of Contents
+
+- [Introduction](#introduction)
+- [Database Configuration](#database-configuration)
+- [Timestamp Types](#timestamp-types)
+- [Current Date and Time](#current-date-and-time)
+- [Date and Time Formatting](#date-and-time-formatting)
+- [Date Arithmetic](#date-arithmetic)
+- [Age Calculation](#age-calculation)
+- [Date Component Extraction](#date-component-extraction)
+- [Boolean Conversions](#boolean-conversions)
+- [Example Queries](#example-queries)
+
+## 📚 Introduction
+
+Date and time manipulation is a crucial aspect of database operations. This guide demonstrates PostgreSQL's capabilities for handling temporal data, including timezone management, formatting, calculation, and extraction of components from dates.
+
+## 🌐 Database Configuration
+
+### Checking Current Timezone
+
+Before working with dates and times, it's important to know your database's timezone configuration:
+
+```sql
+SHOW timezone;
+```
+
+## ⏰ Timestamp Types
+
+PostgreSQL offers two main timestamp types:
+
+- `TIMESTAMP without time zone` - Stores date and time without timezone information
+- `TIMESTAMP with time zone` - Stores date and time with timezone information
+
+### Creating a Table with Both Timestamp Types
+
+```sql
+CREATE Table timez (
+    ts TIMESTAMP without time zone, 
+    tsz TIMESTAMP with time zone
+);
+```
+
+### Inserting Timestamp Data
+
+```sql
+INSERT INTO timez VALUES('2024-01-12 10:45:00', '2024-01-12 10:45:00');
+```
+
+### Viewing Timestamp Data
+
+```sql
+SELECT * FROM timez;
+```
+
+## 📅 Current Date and Time
+
+PostgreSQL provides several functions to get the current date and time:
+
+```sql
+-- Current date and time with timezone
+SELECT now();
+
+-- Current date only
+SELECT CURRENT_DATE;
+
+-- Extract date from timestamp
+SELECT now()::date;
+
+-- Extract time from timestamp
+SELECT now()::time;
+```
+
+## 🔤 Date and Time Formatting
+
+The `to_char()` function allows formatting dates in various ways:
+
+```sql
+-- Format date as day/month/year
+SELECT to_char(now(), 'dd/mm/yyyy');
+
+-- Get month name (lowercase)
+SELECT to_char(now(), 'month');
+
+-- Get month name (uppercase)
+SELECT to_char(now(), 'MONTH');
+
+-- Get day name (uppercase)
+SELECT to_char(now(), 'DDDD');
+
+-- Get day name (lowercase)
+SELECT to_char(now(), 'dddd');
+```
+
+## ➕ Date Arithmetic
+
+PostgreSQL makes it easy to perform date arithmetic using the `INTERVAL` keyword:
+
+```sql
+-- Subtract one year from current date
+SELECT CURRENT_DATE - INTERVAL '1 year';
+
+-- Subtract one month from current date
+SELECT CURRENT_DATE - INTERVAL '1 month';
+
+-- Subtract one year and two months from current date
+SELECT CURRENT_DATE - INTERVAL '1 year 2 month';
+```
+
+## 🧮 Age Calculation
+
+The `age()` function calculates the difference between two dates:
+
+```sql
+-- Calculate age from birth date
+SELECT age(CURRENT_DATE, '1996-07-29');
+```
+
+### Practical Application: Student Age Calculation
+
+```sql
+-- Calculate age of all students
+SELECT *, age(CURRENT_DATE, dob) FROM students;
+```
+
+## 🔍 Date Component Extraction
+
+The `extract()` function allows extraction of specific components from dates:
+
+```sql
+-- Extract day
+SELECT extract(day from '2024-01-25'::date);
+
+-- Extract month
+SELECT extract(month from '2024-01-25'::date);
+
+-- Extract year
+SELECT extract(year from '2024-01-25'::date);
+```
+
+## 🔄 Boolean Conversions
+
+PostgreSQL allows conversion of certain string values to boolean:
+
+```sql
+-- Convert string to boolean
+SELECT 'n'::BOOLEAN;
+```
+
+## 📝 Example Queries
+
+Here are some practical examples combining date operations:
+
+1. **Find students born in a specific month:**
+   ```sql
+   SELECT * FROM students 
+   WHERE extract(month from dob) = 7;
+   ```
+
+2. **Calculate average age by course:**
+   ```sql
+   SELECT course, AVG(extract(year from age(CURRENT_DATE, dob))) as average_age 
+   FROM students 
+   GROUP BY course 
+   ORDER BY average_age DESC;
+   ```
+
+3. **Format students' birthdays nicely:**
+   ```sql
+   SELECT 
+       first_name, 
+       last_name, 
+       to_char(dob, 'Month DD, YYYY') as birthday 
+   FROM students;
+   ```
+
+4. **Find students who have birthdays next month:**
+   ```sql
+   SELECT * FROM students 
+   WHERE extract(month from dob) = extract(month from CURRENT_DATE + INTERVAL '1 month');
+   ```
